@@ -1,0 +1,233 @@
+asyncapi: 3.0.0
+info:
+  title: TripTie Collaboration API
+  version: 1.0.0
+  description: WebSocket API для совместного редактирования маршрутов в сервисе TripTie.
+servers:
+  production:
+    host: api.triptie.app
+    protocol: wss
+    description: Production WebSocket server
+    security:
+      - bearerToken: []
+    bindings:
+      ws:
+        method: GET
+        query:
+          type: object
+          properties:
+            tripId:
+              $ref: '#/components/parameters/Id'
+            token:
+              type: string
+              description: JWT токен авторизации
+  staging:
+    host: staging-api.triptie.app
+    protocol: wss
+    description: Staging WebSocket server
+    security:
+      - bearerToken: []
+channels:
+  tripRouteUpdate:
+    address: '/trip/{tripId}/route'
+    description: Обмен изменениями маршрута между участниками поездки
+    messages:
+      routeChange:
+        $ref: '#/components/messages/routeChange'
+      routeUpdate:
+        $ref: '#/components/messages/routeUpdate'
+    parameters:
+      tripId:
+        $ref: '#/components/parameters/Id'
+    bindings:
+      ws:
+        method: GET
+  tripActivity:
+    address: '/trip/{tripId}/activity'
+    description: Канал для обмена информацией о присутствии и активности участников
+    messages:
+      presenceStatus:
+        $ref: '#/components/messages/activityStatus'
+      presenceUpdate:
+        $ref: '#/components/messages/activityUpdate'
+    parameters:
+      tripId:
+        $ref: '#/components/parameters/Id'
+    bindings:
+      ws:
+        method: GET
+operations:
+  subscribeRouteUpdates:
+    action: receive
+    channel:
+      $ref: '#/channels/tripRouteUpdate'
+    description: Клиент подписывается на канал поездки и получает все изменения маршрута.
+    messages:
+      - $ref: '#/components/messages/routeUpdate'
+    bindings:
+      ws:
+        query:
+          type: object
+          required: [tripId]
+          properties:
+            tripId:
+              $ref: '#/components/parameters/Id'
+  publishRouteChanges:
+    action: send
+    channel:
+      $ref: '#/channels/tripRouteUpdate'
+    description: Клиент отправляет изменения. Сервер валидирует их, применяет и рассылает подписчикам.
+    messages:
+      - $ref: '#/components/messages/routeChange'
+    bindings:
+      ws:
+        query:
+          type: object
+          properties:
+            tripId:
+              required: true
+              $ref: '#/components/parameters/Id'
+components:
+  messages:
+    routeChange:
+      title: Изменение маршрута
+      description: Сообщение об изменении от иницииатора
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/routeChangePayload'
+      headers:
+        type: object
+        properties:
+          requestId:
+            $ref: '#/components/parameters/Id'
+          sentAt:
+            type: string
+            format: date-time    
+    routeUpdate:
+      title: Обновление маршрута
+      description: Сообщение об успешном изменении, рассылается всем подписчикам
+      contentType: application/json
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/routeChangePayload'
+          - type: object
+            properties:
+              confirmed:
+                type: boolean
+                enum: [true, false]
+                description: Подтверждено ли изменение сервером
+              version:
+                type: integer
+                description: Версия маршрута для разрешения конфликтов
+      headers:
+        type: object
+        properties:
+          requestId:
+            $ref: '#/components/parameters/Id'
+    activityStatus:
+      title: Статус присутствия участника в редактировании
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/activityStatusPayload'
+    activityUpdate:
+      title: Информация о присутствии всех участников
+      contentType: application/json
+      payload:
+        type: object
+        required: [tripId, participants, updatedAt]
+        properties:
+          tripId:
+            $ref: '#/components/parameters/Id'
+          participants:
+            type: array
+            items:
+              $ref: '#/components/schemas/activityStatusPayload'
+          updatedAt:
+            type: string
+            format: date-time
+  schemas:
+    routeChangePayload:
+      type: object
+      required: [type, tripId, userId, timestamp]
+      properties:
+        type:
+          type: string
+          enum: [added, removed, reordered, dayRegenerated]
+          description: Тип изменения маршрута
+        tripId:
+          $ref: '#/components/parameters/Id'
+        userId:
+          $ref: '#/components/parameters/Id'
+        timestamp:
+          type: string
+          format: date-time
+          description: Время изменения
+        changes:
+          type: object
+          description: Детали изменения
+          oneOf:
+            - $ref: '#/components/schemas/locationAddedChanges'
+            - $ref: '#/components/schemas/locationRemovedChanges'
+            - $ref: '#/components/schemas/locationReorderedChanges'
+    locationAddedChanges:
+      type: object
+      required: [placeId, dayNumber, timeslot, order]
+      properties:
+        placeId:
+          $ref: '#/components/parameters/Id'
+        dayNumber:
+          type: integer
+        timeslot:
+          $ref: '#/components/schemas/timeSlot'
+        order:
+          type: integer
+    locationRemovedChanges:
+      type: object
+      required: [locationId]
+      properties:
+        locationId:
+          $ref: '#/components/parameters/Id'
+    locationReorderedChanges:
+      type: object
+      required: [locationId, newOrder, dayNumber]
+      properties:
+        locationId:
+          $ref: '#/components/parameters/Id'
+        newOrder:
+          type: integer
+        dayNumber:
+          type: integer
+    activityStatusPayload:
+      type: object
+      required: [tripId, userId, status]
+      properties:
+        tripId:
+          $ref: '#/components/parameters/Id'
+        userId:
+          $ref: '#/components/parameters/Id'
+        status:
+          type: string
+          enum: [online, editing, offline]
+    timeSlot:
+      type: object
+      required: [start, end]
+      properties:
+        start: 
+          type: string
+          format: time
+          example: "10:00"
+        end:
+          type: string
+          format: time
+          example: "12:00"
+  parameters:
+    Id:
+      type: string
+      format: uuid
+      example: "12345678-abcd-1234-abcd-123456789100"
+  securitySchemes:
+    bearerToken:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT токен для аутентификации WebSocket соединения.
