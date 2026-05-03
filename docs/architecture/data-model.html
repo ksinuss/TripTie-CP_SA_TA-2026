@@ -1,0 +1,206 @@
+<!doctype html><html lang=en dir=ltr class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-architecture/data-model" data-has-hydrated=false><head><meta charset=UTF-8><meta name=generator content="Docusaurus v3.10.1"><title data-rh=true>Модель данных | TripTie Documentation</title><meta data-rh=true name=viewport content="width=device-width, initial-scale=1.0"/><meta data-rh=true name=twitter:card content=summary_large_image /><meta data-rh=true property=og:image content=https://ksinuss.github.io/TripTie-CP_SA_TA-2026/img/docusaurus-social-card.jpg /><meta data-rh=true name=twitter:image content=https://ksinuss.github.io/TripTie-CP_SA_TA-2026/img/docusaurus-social-card.jpg /><meta data-rh=true property=og:url content=https://ksinuss.github.io/TripTie-CP_SA_TA-2026/docs/architecture/data-model /><meta data-rh=true property=og:locale content=en /><meta data-rh=true name=docusaurus_locale content=en /><meta data-rh=true name=docsearch:language content=en /><meta data-rh=true name=docusaurus_version content=current /><meta data-rh=true name=docusaurus_tag content=docs-default-current /><meta data-rh=true name=docsearch:version content=current /><meta data-rh=true name=docsearch:docusaurus_tag content=docs-default-current /><meta data-rh=true property=og:title content="Модель данных | TripTie Documentation"/><meta data-rh=true name=description content="Описание сущностей"/><meta data-rh=true property=og:description content="Описание сущностей"/><link data-rh=true rel=icon href=/TripTie-CP_SA_TA-2026/img/favicon.ico /><link data-rh=true rel=canonical href=https://ksinuss.github.io/TripTie-CP_SA_TA-2026/docs/architecture/data-model /><link data-rh=true rel=alternate href=https://ksinuss.github.io/TripTie-CP_SA_TA-2026/docs/architecture/data-model hreflang=en /><link data-rh=true rel=alternate href=https://ksinuss.github.io/TripTie-CP_SA_TA-2026/docs/architecture/data-model hreflang=x-default /><script data-rh=true type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://ksinuss.github.io/TripTie-CP_SA_TA-2026/docs/architecture/data-model","name":"Модель данных","position":1}]}</script><script src=https://cdn.jsdelivr.net/npm/docusaurus-plugin-drawio/viewer.min.js></script><link rel=stylesheet href=/TripTie-CP_SA_TA-2026/assets/css/styles.160a45a5.css /><script src=/TripTie-CP_SA_TA-2026/assets/js/runtime~main.97acb48a.js defer></script><script src=/TripTie-CP_SA_TA-2026/assets/js/main.dd86a96c.js defer></script></head><body><svg style="display: none;"><defs>
+<symbol id=theme-svg-external-link viewBox="0 0 24 24"><path fill=currentColor d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></symbol>
+</defs></svg>
+<script>!function(){var t=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme-414")}catch(t){}}();document.documentElement.setAttribute("data-theme",t||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")),document.documentElement.setAttribute("data-theme-choice",t||"system")}(),function(){try{for(var[t,e]of new URLSearchParams(window.location.search).entries())if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id=__docusaurus><div role=region aria-label="Skip to main content"><a class=skipToContent_fXgn href=#__docusaurus_skipToContent_fallback>Skip to main content</a></div><nav aria-label=Main class="theme-layout-navbar navbar navbar--fixed-top"><div class=navbar__inner><div class="theme-layout-navbar-left navbar__items"><button aria-label="Toggle navigation bar" aria-expanded=false class="navbar__toggle clean-btn" type=button><svg width=30 height=30 viewBox="0 0 30 30" aria-hidden=true><path stroke=currentColor stroke-linecap=round stroke-miterlimit=10 stroke-width=2 d="M4 7h22M4 15h22M4 23h22"/></svg></button><a class=navbar__brand href=/TripTie-CP_SA_TA-2026/></a><a aria-current=page class="navbar__item navbar__link navbar__link--active" href=/TripTie-CP_SA_TA-2026/docs>Документация</a><a class="navbar__item navbar__link" href=/TripTie-CP_SA_TA-2026/docs/api/index>API</a><a class="navbar__item navbar__link" href=/TripTie-CP_SA_TA-2026/style-guide>Style Guide</a></div><div class="theme-layout-navbar-right navbar__items navbar__items--right"><a href=https://github.com/ksinuss/TripTie-CP_SA_TA-2026 target=_blank rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width=13.5 height=13.5 aria-label="(opens in new tab)" class=iconExternalLink_nPIU><use href=#theme-svg-external-link /></svg></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type=button disabled title="system mode" aria-label="Switch between dark and light mode (currently system mode)"><svg viewBox="0 0 24 24" width=24 height=24 aria-hidden=true class="toggleIcon_g3eP lightToggleIcon_pyhR"><path fill=currentColor d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"/></svg><svg viewBox="0 0 24 24" width=24 height=24 aria-hidden=true class="toggleIcon_g3eP darkToggleIcon_wfgR"><path fill=currentColor d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"/></svg><svg viewBox="0 0 24 24" width=24 height=24 aria-hidden=true class="toggleIcon_g3eP systemToggleIcon_QzmC"><path fill=currentColor d="m12 21c4.971 0 9-4.029 9-9s-4.029-9-9-9-9 4.029-9 9 4.029 9 9 9zm4.95-13.95c1.313 1.313 2.05 3.093 2.05 4.95s-0.738 3.637-2.05 4.95c-1.313 1.313-3.093 2.05-4.95 2.05v-14c1.857 0 3.637 0.737 4.95 2.05z"/></svg></button></div><div class=navbarSearchContainer_Bca1></div></div></div><div role=presentation class=navbar-sidebar__backdrop></div></nav><div id=__docusaurus_skipToContent_fallback class="theme-layout-main main-wrapper mainWrapper_z2l0"><div class=docsWrapper_hBAB><button aria-label="Scroll back to top" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type=button></button><div class=docRoot_UBD9><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class=sidebarViewport_aRkj><div class=sidebar_njMd><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class=menu__link href=/TripTie-CP_SA_TA-2026/docs><span title="TripTie Documentation" class=linkLabel_WmDU>TripTie Documentation</span></a><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class=menu__list-item-collapsible><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role=button aria-expanded=false href=/TripTie-CP_SA_TA-2026/docs/introduction><span title=Введение class=categoryLinkLabel_W154>Введение</span></a></div><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class=menu__list-item-collapsible><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role=button aria-expanded=false href=/TripTie-CP_SA_TA-2026/docs/requirements/functional><span title=Требования class=categoryLinkLabel_W154>Требования</span></a></div><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class=menu__list-item-collapsible><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" role=button aria-expanded=true href=/TripTie-CP_SA_TA-2026/docs/architecture/arch><span title=Архитектура class=categoryLinkLabel_W154>Архитектура</span></a></div><ul class=menu__list><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class=menu__link tabindex=0 href=/TripTie-CP_SA_TA-2026/docs/architecture/arch><span title="Обзор архитектуры" class=linkLabel_WmDU>Обзор архитектуры</span></a><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link menu__link--active" aria-current=page tabindex=0 href=/TripTie-CP_SA_TA-2026/docs/architecture/data-model><span title="Модель данных" class=linkLabel_WmDU>Модель данных</span></a><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class=menu__link tabindex=0 href=/TripTie-CP_SA_TA-2026/docs/architecture/integrations><span title="Интеграции с внешними платформами" class=linkLabel_WmDU>Интеграции с внешними платформами</span></a><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class=menu__link tabindex=0 href=/TripTie-CP_SA_TA-2026/docs/architecture/route-generation-process><span title="Процесс генерации маршрута (BPMN + DMN)" class=linkLabel_WmDU>Процесс генерации маршрута (BPMN + DMN)</span></a></ul><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class=menu__list-item-collapsible><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role=button aria-expanded=false href=/TripTie-CP_SA_TA-2026/docs/api><span title=API class=categoryLinkLabel_W154>API</span></a></div><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class=menu__list-item-collapsible><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role=button aria-expanded=false href=/TripTie-CP_SA_TA-2026/docs/ui-wireframes/wireframes><span title=UI class=categoryLinkLabel_W154>UI</span></a></div><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class=menu__list-item-collapsible><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role=button aria-expanded=false href=/TripTie-CP_SA_TA-2026/docs/strategy/platformization><span title=Стратегия class=categoryLinkLabel_W154>Стратегия</span></a></div></ul></nav></div></div></aside><main class=docMainContainer_TBSr><div class="container padding-top--md padding-bottom--lg"><div class=row><div class="col docItemCol_VOVn"><div class=docItemContainer_Djhp><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label=Breadcrumbs><ul class=breadcrumbs><li class=breadcrumbs__item><a aria-label="Home page" class=breadcrumbs__link href=/TripTie-CP_SA_TA-2026/><svg viewBox="0 0 24 24" class=breadcrumbHomeIcon_YNFT><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill=currentColor /></svg></a><li class=breadcrumbs__item><span class=breadcrumbs__link>Архитектура</span><li class="breadcrumbs__item breadcrumbs__item--active"><span class=breadcrumbs__link>Модель данных</span></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type=button class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><div class="theme-doc-markdown markdown"><header><h1>Модель данных и технологии хранения</h1></header>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id=описание-сущностей>Описание сущностей<a href=#описание-сущностей class=hash-link aria-label="Direct link to Описание сущностей" title="Direct link to Описание сущностей" translate=no>​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=пользователь-user>Пользователь (User)<a href=#пользователь-user class=hash-link aria-label="Direct link to Пользователь (User)" title="Direct link to Пользователь (User)" translate=no>​</a></h3>
+<p><strong>Атрибуты:</strong></p>
+<ul>
+<li class=""><code>id</code> (UUID) — уникальный идентификатор</li>
+<li class=""><code>email</code> (string) — адрес электронной почты</li>
+<li class=""><code>passwordHash</code> (string) — хэш пароля</li>
+<li class=""><code>name</code> (string) — отображаемое имя</li>
+<li class=""><code>createdAt</code> (datetime) — дата регистрации</li>
+<li class=""><code>lastLoginAt</code> (datetime) — дата последнего входа</li>
+<li class=""><code>preferences</code> (JSON) — глобальные настройки (язык, валюта, тема)</li>
+</ul>
+<p><strong>Акторы:</strong></p>
+<ul>
+<li class="">Пользователь (CRUD своих данных)</li>
+<li class="">Система (регистрация, аутентификация)</li>
+<li class="">Организатор/участники поездки (чтение профилей)</li>
+</ul>
+<p><strong>Характер взаимодействия:</strong></p>
+<ul>
+<li class="">Высокая частота чтения при аутентификации, редкая запись</li>
+<li class="">Сильная консистентность для безопасности</li>
+<li class="">Объём: ~5 000–10 000 записей на этапе MVP</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=поездка-trip>Поездка (Trip)<a href=#поездка-trip class=hash-link aria-label="Direct link to Поездка (Trip)" title="Direct link to Поездка (Trip)" translate=no>​</a></h3>
+<p><strong>Атрибуты:</strong></p>
+<ul>
+<li class=""><code>id</code> (UUID) — уникальный идентификатор</li>
+<li class=""><code>organizerId</code> (UUID) — владелец поездки</li>
+<li class=""><code>city</code> (string) — город назначения</li>
+<li class=""><code>startDate</code> / <code>endDate</code> (date) — даты поездки</li>
+<li class=""><code>status</code> (enum) — <code>active</code>, <code>completed</code></li>
+<li class=""><code>preferences</code> (JSON) — предпочтения группы (бюджет, программа, питание)</li>
+<li class=""><code>createdAt</code> (datetime)</li>
+</ul>
+<p><strong>Акторы:</strong></p>
+<ul>
+<li class="">Организатор (создание, редактирование, удаление)</li>
+<li class="">Участники (чтение, изменение своих предпочтений)</li>
+<li class="">Система (чтение для генерации маршрута)</li>
+</ul>
+<p><strong>Характер взаимодействия:</strong></p>
+<ul>
+<li class="">Умеренная частота CRUD-операций</li>
+<li class="">Связи: 1<!-- -->:N<!-- --> с участниками и днями маршрута</li>
+<li class="">Объём: до 100 000–200 000 записей при масштабировании</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=маршрут-дня-dayroute>Маршрут дня (DayRoute)<a href=#маршрут-дня-dayroute class=hash-link aria-label="Direct link to Маршрут дня (DayRoute)" title="Direct link to Маршрут дня (DayRoute)" translate=no>​</a></h3>
+<p><strong>Атрибуты:</strong></p>
+<ul>
+<li class=""><code>id</code> (UUID)</li>
+<li class=""><code>tripId</code> (UUID)</li>
+<li class=""><code>dayNumber</code> (int)</li>
+<li class=""><code>date</code> (date)</li>
+<li class=""><code>locations</code> (array) — массив локаций за день</li>
+</ul>
+<p><strong>Акторы:</strong></p>
+<ul>
+<li class="">Система (генерация, обновление)</li>
+<li class="">Пользователь (просмотр, запрос перегенерации)</li>
+</ul>
+<p><strong>Характер взаимодействия:</strong></p>
+<ul>
+<li class="">Низкая частота записи, высокая частота чтения</li>
+<li class="">Генерация по запросу, кэширование результата</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=локация-в-маршруте-location>Локация в маршруте (Location)<a href=#локация-в-маршруте-location class=hash-link aria-label="Direct link to Локация в маршруте (Location)" title="Direct link to Локация в маршруте (Location)" translate=no>​</a></h3>
+<p><strong>Атрибуты:</strong></p>
+<ul>
+<li class=""><code>id</code> (UUID)</li>
+<li class=""><code>dayRouteId</code> (UUID)</li>
+<li class=""><code>placeId</code> (UUID) — ссылка на справочник мест</li>
+<li class=""><code>type</code> (enum) — <code>museum</code>, <code>park</code>, <code>cafe</code>, <code>restaurant</code>, <code>entertainment</code></li>
+<li class=""><code>order</code> (int) — порядок посещения в рамках дня</li>
+<li class=""><code>timeSlotStart</code> / <code>timeSlotEnd</code> (time)</li>
+<li class=""><code>walkTimeFromPrev</code> (int) — минуты от предыдущей точки</li>
+</ul>
+<p><strong>Акторы:</strong></p>
+<ul>
+<li class="">Система (создание при генерации)</li>
+<li class="">Пользователь (ручное редактирование, перестановка)</li>
+</ul>
+<p><strong>Характер взаимодействия:</strong></p>
+<ul>
+<li class="">Частое редактирование пользователями</li>
+<li class="">Требует JOIN с <code>Place</code> для отображения деталей</li>
+<li class="">Объём: ~1–2 млн записей (5–7 локаций × 250k поездок)</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=место-place>Место (Place)<a href=#место-place class=hash-link aria-label="Direct link to Место (Place)" title="Direct link to Место (Place)" translate=no>​</a></h3>
+<p><strong>Атрибуты:</strong></p>
+<ul>
+<li class=""><code>id</code> (UUID)</li>
+<li class=""><code>name</code> (string)</li>
+<li class=""><code>coordinates</code> (lat, lon)</li>
+<li class=""><code>rating</code> (float 0–5)</li>
+<li class=""><code>averageReceipt</code> (int)</li>
+<li class=""><code>webSiteLink</code> (string)</li>
+<li class=""><code>photos</code> (array of URLs)</li>
+</ul>
+<p><strong>Акторы:</strong></p>
+<ul>
+<li class="">Система (кэширование из внешних API)</li>
+<li class="">Пользователь (чтение)</li>
+</ul>
+<p><strong>Характер взаимодействия:</strong></p>
+<ul>
+<li class="">Редкая запись (обновление кэша), частое чтение</li>
+<li class="">Источники: 2GIS, Яндекс.Карты, TripAdvisor</li>
+<li class="">Объём MVP: 2 000–5 000 уникальных мест</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=детали-места-placedetails>Детали места (PlaceDetails)<a href=#детали-места-placedetails class=hash-link aria-label="Direct link to Детали места (PlaceDetails)" title="Direct link to Детали места (PlaceDetails)" translate=no>​</a></h3>
+<p><strong>Атрибуты:</strong></p>
+<ul>
+<li class="">Все атрибуты <code>Place</code> (наследование)</li>
+<li class=""><code>description</code> (text)</li>
+<li class=""><code>address</code> (string)</li>
+<li class=""><code>openingHours</code> (array: day, open, close)</li>
+</ul>
+<p><strong>Акторы:</strong></p>
+<ul>
+<li class="">Пользователь (чтение при открытии карточки места)</li>
+<li class="">Система (подгрузка по требованию)</li>
+</ul>
+<p><strong>Характер взаимодействия:</strong></p>
+<ul>
+<li class="">Ленивая загрузка, редкое обновление кэша</li>
+<li class="">Объём пропорционален базовым местам</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=участник-поездки-participant>Участник поездки (Participant)<a href=#участник-поездки-participant class=hash-link aria-label="Direct link to Участник поездки (Participant)" title="Direct link to Участник поездки (Participant)" translate=no>​</a></h3>
+<p><strong>Атрибуты:</strong></p>
+<ul>
+<li class=""><code>id</code> (UUID) — идентификатор пользователя</li>
+<li class=""><code>tripId</code> (UUID)</li>
+<li class=""><code>role</code> (enum) — <code>organizer</code>, <code>member</code></li>
+<li class=""><code>responsibility</code> (string) — зона ответственности</li>
+<li class=""><code>joinedAt</code> (datetime)</li>
+</ul>
+<p><strong>Акторы:</strong></p>
+<ul>
+<li class="">Система (добавление в состав)</li>
+<li class="">Пользователь (просмотр списка, редактирование своих данных)</li>
+</ul>
+<p><strong>Характер взаимодействия:</strong></p>
+<ul>
+<li class="">Супер-редкая запись (только при вступлении)</li>
+<li class="">Используется для отображения состава команды и прав доступа</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id=выбор-технологий-хранения>Выбор технологий хранения<a href=#выбор-технологий-хранения class=hash-link aria-label="Direct link to Выбор технологий хранения" title="Direct link to Выбор технологий хранения" translate=no>​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=анализ-требований>Анализ требований<a href=#анализ-требований class=hash-link aria-label="Direct link to Анализ требований" title="Direct link to Анализ требований" translate=no>​</a></h3>
+<table><thead><tr><th>Критерий<th>Пользователи, Поездки, Маршруты<th>Места (кэш), Сессии<th>Логи, аналитика, бэкапы, медиа<tbody><tr><td><strong>Объём данных</strong><td>1–5 ГБ (линейный рост)<td>~1 ГБ (умеренный)<td>100–500 ГБ (быстрый рост)<tr><td><strong>Паттерн доступа</strong><td>OLTP (мелкие транзакции)<td>Key-Value Lookup<td>Event Streaming + OLAP<tr><td><strong>Консистентность</strong><td>Strong (критично для прав и маршрутов)<td>Eventual (кэш допустим)<td>Weak + Eventual<tr><td><strong>Доступность</strong><td>99.9–99.99%<td>99.9%<td>99.9%<tr><td><strong>Мутабельность схемы</strong><td>Жёсткая (стабильные поля)<td>Гибкая (JSON-атрибуты)<td>Гибкая (новые метрики)<tr><td><strong>Транзакции</strong><td>Да (атомарное создание поездки + участников)<td>Нет<td>Нет<tr><td><strong>Поиск и запросы</strong><td>Сложные JOIN, фильтрация по датам/статусам<td>Быстрая фильтрация по координатам/тегам<td>Агрегация, временные ряды<tr><td><strong>Стоимость</strong><td>Open-source (бесплатно)<td>In-memory / Doc DB<td>Open-source + Object Storage<tr><td><strong>Итоговое решение</strong><td><strong>PostgreSQL</strong><td><strong>Redis + MongoDB</strong><td><strong>ClickHouse + S3</strong></table>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=обоснование-выбора>Обоснование выбора<a href=#обоснование-выбора class=hash-link aria-label="Direct link to Обоснование выбора" title="Direct link to Обоснование выбора" translate=no>​</a></h3>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id=postgresql-основная-бд>PostgreSQL (основная БД)<a href=#postgresql-основная-бд class=hash-link aria-label="Direct link to PostgreSQL (основная БД)" title="Direct link to PostgreSQL (основная БД)" translate=no>​</a></h4>
+<ul>
+<li class="">Поддержка ACID-транзакций критична для создания поездок и управления правами участников</li>
+<li class="">Нативная работа с JSONB позволяет хранить гибкие предпочтения без нарушения схемы</li>
+<li class="">Индексы по <code>tripId</code>, <code>userId</code>, <code>status</code>, <code>date</code> обеспечивают быстрый поиск</li>
+<li class="">Бесплатная лицензия, активное сообщество, совместимость с Supabase/облаками</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id=redis--mongodb-кэш-и-справочники>Redis + MongoDB (кэш и справочники)<a href=#redis--mongodb-кэш-и-справочники class=hash-link aria-label="Direct link to Redis + MongoDB (кэш и справочники)" title="Direct link to Redis + MongoDB (кэш и справочники)" translate=no>​</a></h4>
+<ul>
+<li class=""><strong>Redis</strong>: сессии, временные токены приглашений, кэш маршрутов (TTL 24ч), счётчики запросов к API</li>
+<li class=""><strong>MongoDB</strong>: хранение детализированных данных о местах с гибкой схемой (меню кафе, билеты, атрибуты)</li>
+<li class="">Eventual consistency допустима: пользователь видит кэш, а не实时-данные из 2GIS</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id=clickhouse--s3-аналитика-и-медиа>ClickHouse + S3 (аналитика и медиа)<a href=#clickhouse--s3-аналитика-и-медиа class=hash-link aria-label="Direct link to ClickHouse + S3 (аналитика и медиа)" title="Direct link to ClickHouse + S3 (аналитика и медиа)" translate=no>​</a></h4>
+<ul>
+<li class=""><strong>ClickHouse</strong>: агрегация действий пользователей, метрики конверсии, обучение рекомендательных моделей</li>
+<li class=""><strong>S3 / Яндекс.Облако Object Storage</strong>: фотографии мест, бэкапы БД, экспорт маршрутов в PDF</li>
+<li class="">Разделение OLTP и OLAP нагрузок предотвращает деградацию основного API</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id=индексы-и-оптимизация>Индексы и оптимизация<a href=#индексы-и-оптимизация class=hash-link aria-label="Direct link to Индексы и оптимизация" title="Direct link to Индексы и оптимизация" translate=no>​</a></h2>
+<table><thead><tr><th>Таблица<th>Индексы<th>Назначение<tbody><tr><td><code>users</code><td><code>email</code> (UNIQUE)<td>Аутентификация, поиск<tr><td><code>trips</code><td><code>organizer_id</code>, <code>status</code>, <code>start_date</code><td>Фильтрация поездок, календарь<tr><td><code>participants</code><td><code>user_id</code>, <code>trip_id</code> (COMPOSITE UNIQUE)<td>Проверка дубликатов, права доступа<tr><td><code>day_routes</code><td><code>trip_id</code>, <code>date</code><td>Быстрая загрузка маршрута по дням<tr><td><code>locations</code><td><code>day_route_id</code>, <code>place_id</code>, <code>order</code><td>Сортировка точек, JOIN с Place<tr><td><code>places</code><td><code>coordinates</code> (GEO), <code>rating</code>, <code>type</code><td>Гео-поиск, фильтрация по категориям</table>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id=модели-данных>Модели данных<a href=#модели-данных class=hash-link aria-label="Direct link to Модели данных" title="Direct link to Модели данных" translate=no>​</a></h2>
+<p>В этом разделе представлены три уровня проектирования базы данных: концептуальный, логический и физический. Каждый уровень сопровождается PlantUML-кодом для версионирования и возможностью автоматической генерации диаграмм.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=1-концептуальная-модель>1. Концептуальная модель<a href=#1-концептуальная-модель class=hash-link aria-label="Direct link to 1. Концептуальная модель" title="Direct link to 1. Концептуальная модель" translate=no>​</a></h3>
+<img decoding=async loading=lazy src=https://www.plantuml.com/plantuml/png/NP2zRi8m58NtI7a7Yns9gLqPEdQe-lC0Lh2eHR0ZnmmH33H8j0CIIwUsKeU-G5GHWMWJNk7SDweSId7Ph7FFyVdkxQQM6piQnc5WfOq5mmjgL3H7YHtbD4E1BrgWGa5BXc_KMA5qKXY4GJgGAk663raibR1P8fWszbxxauH70zuNDpQB1JCYibprO-4xbEw9L2JilEEhXgk1KyywhaaeAst6MdX7tG2jKUCJ1ULxcXRZARjBXJcnbbXZXIsAnd1hPE8PFkWH1JrGZWeRR1bsNcBJ9AwuiJAI2LVM2pwZH4KBTu-2flH4KvfH_bjomRDhFRB2yx-YTWmqnuQMZUbIHznAhJpJ6yg6fTuNnpmIRdF7p2QJTdio_a_Zjcq6-cJmbz1Z3-RmElnr96Yg3e6Z70PTeNgZOVm3 class=img_ev3q />
+<p><strong>Обоснование:</strong></p>
+<ul>
+<li class="">Выделено 6 сущностей, полностью покрывающих функциональные требования MVP</li>
+<li class="">Связи отражают бизнес-логику: <code>Пользователь → Участник → Поездка → Дни маршрута → Локации → Места</code></li>
+<li class="">Сущность <code>Участник поездки</code> реализует связь M<!-- -->:N<!-- --> между пользователем и поездкой, храня метаданные вступления (роль, дата, зона ответственности)</li>
+<li class=""><code>Место</code> и <code>Локация</code> разделены: <code>Место</code> — глобальный справочник (кэш внешних API), <code>Локация</code> — конкретная точка в расписании маршрута с тайм-слотами и порядком</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=2-логическая-модель>2. Логическая модель<a href=#2-логическая-модель class=hash-link aria-label="Direct link to 2. Логическая модель" title="Direct link to 2. Логическая модель" translate=no>​</a></h3>
+<img decoding=async loading=lazy src=https://www.plantuml.com/plantuml/png/bPF1YXD148Rl0_CEpHu3UOEmx445KMGLSsugCxL9RNgwc-gQ3MFYmPCNmGVm9GHT49LzXiuRINScCPd5WAUf_ozwwkkgwgiWmD8sfYo4nA2AN-93_1P_R3_6--s7-3D-tNvMyNTyYD_ZVVor_LGMPH6MP3qmDCgGHUayAiUoS2c7LaWwTJ4Do1SAWag1MfU5KYEgrMHo_UBoCgdnE7lO01arcKnVFNyzVRfBZJo4i79SwmM4HN8iD9Y-5IC8rXeaAGD1j75pihtX6M-GqLOOokBzCSvR9fznKd06n_4SBBr3rZdxhC-EAf8k1xbXkWR17Rwj3o88I1iUSPnIdr1T0mjLvC5AXZlIPnY5oG_msl28c9t9LBUExA5ZZC4x6sX69b_eXEO9T6zSAvXHzkB_E6hej6sR6N8lKsTEYhnq5GWvculinPaYwO-SG0QLl85gw3ck-y923UfWdEWyhu67jixE2inIP_k6NQCzurtoqq8F1vMgxKQKeZEy-qqT6H2Ijkw5i_E3OX2oynJ17JBCKJDMI3vZhd2c0mbgGtQPTsdXnEtNEJ-cpMOyTklZPIcBlDOfiVbNmgqFCosBmtJx8_j1bCNkVls1ltPPNA6jsyRy0G00 class=img_ev3q />
+<p><strong>Обоснование:</strong></p>
+<ul>
+<li class=""><code>User</code>: пароль хранится только в виде хэша; поле <code>preferences</code> использует JSON для гибкой настройки без изменения схемы</li>
+<li class=""><code>Participant</code>: промежуточная таблица для реализации связи M<!-- -->:N<!-- -->, содержит атрибуты роли и ответственности</li>
+<li class=""><code>Place</code>: справочник мест, нормализован для связи с внешними сервисами и кэширования</li>
+<li class="">Все первичные ключи обозначены как <code>&lt;&lt;PK>></code>, внешние — как <code>&lt;&lt;FK>></code>, уникальные ограничения — как <code>&lt;&lt;UNIQUE>></code></li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=3-физическая-модель>3. Физическая модель<a href=#3-физическая-модель class=hash-link aria-label="Direct link to 3. Физическая модель" title="Direct link to 3. Физическая модель" translate=no>​</a></h3>
+<img decoding=async loading=lazy src=https://www.plantuml.com/plantuml/png/hPJ1RjD048RlblmEgrxQHWrAAbL2KLGrQbm8RTEI9Y1niRRsD5cwthLsnwb2oe4J5oHUWWVWG4K5Y6TmtWXvRPgrWnIGkAtddzsT_zln76Ya2fE8kmuov43IJ-bz-ZMzNxnFxnRlqc_fvyL7alv8VwPVqhlq--A3wxYElcOYfef6X3C1E8k1I8KJcMaWaE6CR2GQbDuWL1Ep8dFN8QJ6Gj8Yer6lIzhjy-Fz_InOhni98ieuQP4NdS7XqyvWQtTlRvkqswD-x_d8opDhCTNwHghGdr0zgUHc2O96O8MRZOO91meeGkXJ92qox9rw5yFEwVdm5MctkzvHPtGo9FspbrlR-IsSQlIv73EniY6JOmLNe404e4cBFBiuwxlEMzivAXRdpirglNEfnbImDw1yE-dek6x8FM9XuJx8ZbzrLpDlw8SKC-_Tpj3BUOgm6jD8CT4sjyQsnM2J1iYci9bVzoUV_uQoH2Mc2bd0OYemXsC7rZFAK5Rn6BnBF1cjDGILv52sduLVIoR-kZiKw5WApIuPPpYhlaR9SaXdlf89Gcvu-VbVx6R7YIIw14LQfDSVUa-yGI5OZrugYCk08fCYh-VXQtqv3wLNQrfwMXOMSngi99gWbIHLk58uiWXypINwfgEBrwX8849RkA7ysZVgbPAH7okObayrqwdovEN6D9NbBMcMwt5KniplwLFZ51aceQ7l7VPEEoTRpSREuqAKOhoYDWjLKMHYR2cxEqqZq2aeEWPVGG0inhAt6xZqDKFmEHFN9PDvOySJYR8ofV9fV7jRhyjvFg1S9vzJMUnsNlelRKdEhGvs7QkRYuqF_UGw1SXYcoMupW68C8duBm00 class=img_ev3q />
+<p><strong>Обоснование:</strong></p>
+<ul>
+<li class="">Все таблицы используют <code>UUID</code> для первичных и внешних ключей — повышает безопасность и упрощает распределённую генерацию ID</li>
+<li class=""><code>VARCHAR(255)</code> для email соответствует стандарту RFC 5321</li>
+<li class="">JSON-поля (<code>preferences</code>, <code>photos</code>) позволяют хранить гибкие структуры без миграций схемы</li>
+<li class="">Для <code>longitude</code> выбран тип <code>DECIMAL(11,8)</code>, так как диапазон значений шире, чем у <code>latitude</code></li>
+<li class="">Политики архивирования: завершённые поездки хранятся 3 года, после чего переносятся в холодное хранилище</li>
+</ul></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col noPrint_WFHX"><a href=https://github.com/ksinuss/TripTie-CP_SA_TA-2026/tree/main/triptie/docs/architecture/data-model.md target=_blank rel="noopener noreferrer" class=theme-edit-this-page><svg fill=currentColor height=20 width=20 viewBox="0 0 40 40" class=iconEdit_Z9Sw aria-hidden=true><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"/></g></svg>Edit this page</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href=/TripTie-CP_SA_TA-2026/docs/architecture/arch><div class=pagination-nav__sublabel>Previous</div><div class=pagination-nav__label>Обзор архитектуры</div></a><a class="pagination-nav__link pagination-nav__link--next" href=/TripTie-CP_SA_TA-2026/docs/architecture/integrations><div class=pagination-nav__sublabel>Next</div><div class=pagination-nav__label>Интеграции с внешними платформами</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href=#описание-сущностей class="table-of-contents__link toc-highlight">Описание сущностей</a><ul><li><a href=#пользователь-user class="table-of-contents__link toc-highlight">Пользователь (User)</a><li><a href=#поездка-trip class="table-of-contents__link toc-highlight">Поездка (Trip)</a><li><a href=#маршрут-дня-dayroute class="table-of-contents__link toc-highlight">Маршрут дня (DayRoute)</a><li><a href=#локация-в-маршруте-location class="table-of-contents__link toc-highlight">Локация в маршруте (Location)</a><li><a href=#место-place class="table-of-contents__link toc-highlight">Место (Place)</a><li><a href=#детали-места-placedetails class="table-of-contents__link toc-highlight">Детали места (PlaceDetails)</a><li><a href=#участник-поездки-participant class="table-of-contents__link toc-highlight">Участник поездки (Participant)</a></ul><li><a href=#выбор-технологий-хранения class="table-of-contents__link toc-highlight">Выбор технологий хранения</a><ul><li><a href=#анализ-требований class="table-of-contents__link toc-highlight">Анализ требований</a><li><a href=#обоснование-выбора class="table-of-contents__link toc-highlight">Обоснование выбора</a></ul><li><a href=#индексы-и-оптимизация class="table-of-contents__link toc-highlight">Индексы и оптимизация</a><li><a href=#модели-данных class="table-of-contents__link toc-highlight">Модели данных</a><ul><li><a href=#1-концептуальная-модель class="table-of-contents__link toc-highlight">1. Концептуальная модель</a><li><a href=#2-логическая-модель class="table-of-contents__link toc-highlight">2. Логическая модель</a><li><a href=#3-физическая-модель class="table-of-contents__link toc-highlight">3. Физическая модель</a></ul></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="theme-layout-footer-column col footer__col"><div class=footer__title>Docs</div><ul class="footer__items clean-list"><li class=footer__item><a class=footer__link-item href=/TripTie-CP_SA_TA-2026/docs/introduction/index>Введение</a><li class=footer__item><a class=footer__link-item href=/TripTie-CP_SA_TA-2026/docs/requirements/functional>Требования</a><li class=footer__item><a class=footer__link-item href=/TripTie-CP_SA_TA-2026/docs/architecture/arch>Архитектура</a></ul></div><div class="theme-layout-footer-column col footer__col"><div class=footer__title>More</div><ul class="footer__items clean-list"><li class=footer__item><a href=https://github.com/ksinuss/TripTie-CP_SA_TA-2026 target=_blank rel="noopener noreferrer" class=footer__link-item>GitHub<svg width=13.5 height=13.5 aria-label="(opens in new tab)" class=iconExternalLink_nPIU><use href=#theme-svg-external-link /></svg></a></ul></div></div><div class="footer__bottom text--center"><div class=footer__copyright>Copyright © 2026 TripTie Documentation. Built with Docusaurus.</div></div></div></footer></div></body>

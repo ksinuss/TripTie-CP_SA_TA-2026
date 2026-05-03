@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunktriptie=self.webpackChunktriptie||[]).push([["256"],{2650(e){e.exports=JSON.parse('{"name":"docusaurus-plugin-content-docs","id":"style-guide"}')}}]);

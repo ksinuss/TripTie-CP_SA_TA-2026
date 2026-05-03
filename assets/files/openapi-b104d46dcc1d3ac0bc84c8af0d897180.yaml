@@ -1,0 +1,517 @@
+openapi: "3.0.2"
+info:
+  title: TripTie API
+  description: API для сервиса группового планирования путешествий
+  version: "1.0"
+security:
+  - BearerAuth: []
+servers:
+  - url: https://api.triptie.app/v1
+paths:
+  /cities:
+    get:
+      summary: Получение списка городов
+      parameters:
+        - name: country
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Успешное получение списка городов
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CityList"
+        "400":
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /trips:
+    post:
+      summary: Создание поездки
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateTripRequest"
+      responses:
+        "201":
+          description: Успешное создание поездки
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/TripCreated"
+        "400":
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Запрос от неавторизованного клиента
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /trips/{TripId}:
+    get:
+      summary: Данные поездки
+      parameters:
+        - name: TripId
+          in: path
+          required: true
+          schema: 
+            $ref: "#/components/schemas/Id"
+      responses:
+        "200":
+          description: Успешное получение данных поездки
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/TripDetail"
+        "404":
+          description: Ресурс не найден
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /trips/{TripId}/route:
+    get:
+      summary: Маршрут по дням
+      parameters:
+        - name: TripId
+          in: path
+          required: true
+          schema: 
+            $ref: "#/components/schemas/Id"
+        - name: day
+          in: query
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Успешное получение данных маршрута
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RouteResponse"
+        "404":
+          description: Ресурс не найден (поездка не создана, например)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      summary: Генерация маршрута
+      parameters:
+        - name: TripId
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/Id"
+      responses:
+        "202":
+          description: Запрос на генерацию принят
+        "404":
+          description: Ресурс не найден
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    patch:
+      summary: Обновление маршрута
+      parameters:
+        - name: TripId
+          in: path
+          required: true
+          schema:  
+            $ref: "#/components/schemas/Id"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateRouteRequest"
+      responses:
+        "200":
+          description: Успешное обновление маршрута
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/RouteResponse"
+        "400":
+          description: Ошибка валидации запроса
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Поездка не найдена
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /trips/{TripId}/route/{locationId}:
+    delete:
+      summary: Удаление локации из маршрута
+      parameters:
+        - name: TripId
+          in: path
+          required: true
+          schema: 
+            $ref: "#/components/schemas/Id"
+        - name: locationId
+          in: path
+          required: true
+          schema: 
+            $ref: "#/components/schemas/Id"
+      responses:
+        "204": 
+          description: Локация успешно удалена
+        "404":
+          description: Ресурс не найде (такой локации не существует / запрашиваемой поездки не существует)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /places/{placeId}:
+    get:
+      summary: Детальная информация места
+      parameters:
+        - name: placeId
+          in: path
+          required: true
+          schema: 
+            $ref: "#/components/schemas/Id"
+      responses:
+        "200":
+          description: Успешное получение информации о месте
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/PlaceDetail"
+  /places:
+    post:
+      summary: Поиск мест в заданном городе
+      parameters:
+        - name: city
+          in: query
+          required: true
+          schema: 
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Preferences"
+      responses:
+        "200":
+          description: Успешное получение мест
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/PlaceSearchResponse"
+  /maps/config:
+    get:
+      summary: Конфигурация интерактивной карты
+      description: Данные для отображения интерактивной карты маршрута
+      parameters:
+        - name: TripId
+          in: query
+          required: true
+          schema:  
+            $ref: "#/components/schemas/Id"
+        - name: day
+          in: query
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Успешное получение данных для отображения
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MapConfigResponse"
+        "400":
+          description: Ошибка в запросе
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Ресурс не найден (запрашиваемой поездки не существует)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+components:
+  schemas:
+    CityList:
+      type: object
+      properties:
+        cities:
+          type: array
+          items:
+            $ref: "#/components/schemas/City"
+        total:
+          type: number
+    City:
+      type: object
+      required: [id, name, country]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        country:
+          type: string
+        coordinates:
+          $ref: "#/components/schemas/Coordinates"
+    Coordinates:
+      type: object
+      required: [latitude, longitude]
+      properties:
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+    CreateTripRequest:
+      type: object
+      required: [city, startDate, endDate]
+      properties:
+        city:
+          type: string
+        startDate:
+          type: string
+          format: date
+        endDate: 
+          type: string
+          format: date
+        budget: 
+          type: string
+          enum: [free, low, medium, high]
+        preferences:
+          $ref: "#/components/schemas/Preferences"
+    Preferences:
+      type: object
+      required: [tripPreferences, foodPreference]
+      properties:
+        tripPreferences:
+          type: array
+          items:
+            type: string
+            enum: [museums, nature, entertainment]
+        foodPreference:
+          type: string
+          enum: [none, canteen, cafe, restaurant]
+    Id:
+      type: string
+      format: uuid
+      example: "12345678-abcd-1234-abcd-123456789100"
+    TripCreated:
+      type: object
+      required: [id, status]
+      properties:
+        id: 
+          $ref: "#/components/schemas/Id"
+        status:
+          $ref: "#/components/schemas/TripStatus"
+        createdAt:
+          type: string
+          format: date-time
+    TripStatus:
+      type: string
+      enum: [active, completed]
+    TripDetail:
+      type: object
+      required: [id, city, startDate, endDate, status, participants]
+      properties:
+        id: 
+          $ref: "#/components/schemas/Id"
+        city: 
+          type: string
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        status: 
+          $ref: "#/components/schemas/TripStatus"
+        budget: 
+          type: string
+          enum: [free, low, medium, high]
+        preferences:
+          $ref: "#/components/schemas/Preferences"
+        participants:
+          type: array
+          items:
+            $ref: "#/components/schemas/Participant"
+    Participant:
+      type: object
+      required: [userId, role]
+      properties:
+        userId: 
+          $ref: "#/components/schemas/Id"
+        role:
+          type: string
+          enum: [organizer, member]
+        responsibility: 
+          type: string
+          description: Зона ответственности участника (собрать вещи, взять билеты, распечатать карту маршрута)
+    DayRoute:
+      type: object
+      required: [day, date, locations]
+      properties:
+        day:
+          type: integer
+        date:
+          type: string
+          format: date
+        locations:
+          type: array
+          items: 
+            $ref: "#/components/schemas/Location"
+    Location:
+      type: object
+      required: [id, placeId, day, timeslot, walkTimeFromPrevious]
+      properties:
+        id:
+          $ref: "#/components/schemas/Id"
+        placeId:
+          $ref: "#/components/schemas/Id"
+        day:
+          type: integer
+        timeslot: 
+          $ref: "#/components/schemas/TimeSlot"
+        walkTimeFromPrevious:
+          type: integer
+        name:
+          type: string
+        locationType:
+          type: string
+          enum: [museum, park, landmark, entertainment, cafe, restaurant]
+    TimeSlot:
+      type: object
+      required: [start, end]
+      properties:
+        start: 
+          type: string
+          format: time
+          example: "10:00"
+        end:
+          type: string
+          format: time
+          example: "12:00"
+    UpdateRouteRequest:
+      type: object
+      description: Обновление маршрута с группировкой изменений по дням
+      properties:
+        days:
+          type: array
+          items:
+            $ref: "#/components/schemas/Location"
+    Place:
+      type: object
+      required: [id, name, coordinates, rating]
+      properties:
+        id:
+          $ref: "#/components/schemas/Id"
+        name:
+          type: string
+        coordinates: 
+          $ref: "#/components/schemas/Coordinates"
+        rating:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 5
+        webSiteLink: 
+          type: string
+        averageReceipt: 
+          type: integer
+        photos:
+          type: array
+          items: 
+            type: string
+            format: uri
+    PlaceSearchResponse:
+      type: object
+      properties:
+        places:
+          type: array
+          items: 
+            $ref: "#/components/schemas/Place"
+        total: 
+          type: number
+    PlaceDetail:
+      allOf:
+        - $ref: "#/components/schemas/Place"
+        - type: object
+          properties:
+            placeDescription:
+              type: string
+            address: 
+              type: string
+            openingHours:
+              type: array
+              items:
+                description: Дни недели, по которым локация работает
+                type: object
+                properties:
+                  day:
+                    type: string
+                  open: 
+                    type: string
+                    format: time
+                  close: 
+                    type: string
+                    format: time
+    MapConfigResponse:
+      description: Конфигурация для инициализации интерактивной карты
+      type: object
+      required: [center, markers]
+      properties:
+        center:
+          $ref: "#/components/schemas/Coordinates"
+        markers:
+          type: array
+          items:
+            $ref: "#/components/schemas/Coordinates"
+        mapScale:
+          type: integer
+          description: Начальный масштаб карты
+    RouteResponse:
+      type: object
+      required: [tripId, days]
+      properties:
+        tripId:
+          $ref: "#/components/schemas/Id"
+        days:
+          type: array
+          items: 
+            $ref: "#/components/schemas/DayRoute"
+    Error:
+      description: Структура ошибки
+      type: object
+      required: [code, message]
+      properties:
+        code: 
+          type: string
+          example: "AA-1B"
+        message:
+          type: string
+  
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT токен авторизации
