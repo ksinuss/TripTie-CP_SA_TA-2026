@@ -18,10 +18,10 @@ const config = {
   organizationName: 'ksinuss',
   projectName: 'TripTie-CP_SA_TA-2026',
 
+  deploymentBranch: 'gh-pages',
   onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
   trailingSlash: false,
-  deploymentBranch: 'gh-pages',
 
   plugins: [
     ['drawio', {}],
