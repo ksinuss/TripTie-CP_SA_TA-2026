@@ -1,12 +1,6 @@
 // @ts-check
-// `@type` JSDoc annotations allow editor autocompletion and type checking
-// (when paired with `@ts-check`).
-// There are various equivalent ways to declare your Docusaurus config.
-// See: https://docusaurus.io/docs/api/docusaurus-config
-
 import {themes as prismThemes} from 'prism-react-renderer';
-
-// This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
+import simplePlantUML from '@akebifiky/remark-simple-plantuml';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -14,35 +8,41 @@ const config = {
   tagline: 'Сервис группового планирования путешествий',
   favicon: 'img/favicon.ico',
 
-  // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
-    v4: true, // Improve compatibility with the upcoming Docusaurus v4
+    v4: true,
   },
 
-  // Set the production url of your site here
   url: 'https://ksinuss.github.io',
-  // Set the /<baseUrl>/ pathname under which your site is served
-  // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/TripTie-CP_SA_TA-2026/',
 
-  // GitHub pages deployment config.
-  // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'ksinuss', // Usually your GitHub org/user name.
-  projectName: 'TripTie-CP_SA_TA-2026', // Usually your repo name.
+  organizationName: 'ksinuss',
+  projectName: 'TripTie-CP_SA_TA-2026',
 
   onBrokenLinks: 'warn',
+  onBrokenMarkdownLinks: 'warn',
   trailingSlash: false,
   deploymentBranch: 'gh-pages',
 
+  plugins: [
+    ['drawio', {}],
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'style-guide',
+        path: 'style-guide',
+        routeBasePath: 'style-guide',
+        sidebarPath: require.resolve('./sidebars-style-guide.js'),
+        remarkPlugins: [simplePlantUML],
+      },
+    ],
+  ],
+
   markdown: {
     hooks: {
-      onBrokenMarkdownLinks: 'warn', // или 'ignore' / 'throw'
+      onBrokenMarkdownLinks: 'warn',
     },
   },
 
-  // Even if you don't use internationalization, you can use this field to set
-  // useful metadata like html lang. For example, if your site is Chinese, you
-  // may want to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: 'en',
     locales: ['en'],
@@ -51,92 +51,89 @@ const config = {
   presets: [
     [
       'classic',
-      /** @type {import('@docusaurus/preset-classic').Options} */
-      ({
+      {
         blog: false,
         docs: {
           sidebarPath: './sidebars.js',
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
+          routeBasePath: 'docs',
           editUrl:
             'https://github.com/ksinuss/TripTie-CP_SA_TA-2026/tree/main/triptie',
+          remarkPlugins: [simplePlantUML], // ← PlantUML для основной документации
         },
         theme: {
           customCss: './src/css/custom.css',
         },
-      }),
+      },
     ],
   ],
 
-  themeConfig:
-    /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
-    ({
-      // Replace with your project's social card
-      image: 'img/docusaurus-social-card.jpg',
-      colorMode: {
-        respectPrefersColorScheme: true,
-      },
-      navbar: {
-        items: [
-          {
-            type: 'docSidebar',
-            sidebarId: 'docs',
+  themeConfig: {
+    image: 'img/docusaurus-social-card.jpg',
+    colorMode: {
+      respectPrefersColorScheme: true,
+    },
+    navbar: {
+      items: [
+        {
+          type: 'doc',
+          docId: 'index',
+          position: 'left',
+          label: 'Документация',
+        },
+        {
+          to: '/docs/api/index',
+          label: 'API',
+          position: 'left',
+        },
+        {
+            to: '/style-guide/',
+            label: 'Style Guide',
             position: 'left',
-            label: 'Документация',
-          },
-          {
-            href: 'https://github.com/ksinuss/TripTie-CP_SA_TA-2026',
-            label: 'GitHub',
-            position: 'right',
-          },
-        ],
-      },
-      footer: {
-        style: 'dark',
-        links: [
-          {
-            title: 'Docs',
-            items: [
-              {
-                label: 'Tutorial',
-                to: '/docs/intro',
-              },
-            ],
-          },
-          {
-            title: 'Community',
-            items: [
-              {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-              },
-              {
-                label: 'Discord',
-                href: 'https://discordapp.com/invite/docusaurus',
-              },
-              {
-                label: 'X',
-                href: 'https://x.com/docusaurus',
-              },
-            ],
-          },
-          {
-            title: 'More',
-            items: [
-              {
-                label: 'GitHub',
-                href: 'https://github.com/ksinuss/TripTie-CP_SA_TA-2026',
-              },
-            ],
-          },
-        ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
-      },
-      prism: {
-        theme: prismThemes.github,
-        darkTheme: prismThemes.dracula,
-      },
-    }),
+        },
+        {
+          href: 'https://github.com/ksinuss/TripTie-CP_SA_TA-2026',
+          label: 'GitHub',
+          position: 'right',
+        },
+      ],
+    },
+    footer: {
+      style: 'dark',
+      links: [
+        {
+          title: 'Docs',
+          items: [
+            {
+              label: 'Введение',
+              to: '/docs/introduction/index',
+            },
+            {
+              label: 'Требования',
+              to: '/docs/requirements/functional',
+            },
+            {
+              label: 'Архитектура',
+              to: '/docs/architecture/arch',
+            },
+          ],
+        },
+        {
+          title: 'More',
+          items: [
+            {
+              label: 'GitHub',
+              href: 'https://github.com/ksinuss/TripTie-CP_SA_TA-2026',
+            },
+          ],
+        },
+      ],
+      copyright: `Copyright © ${new Date().getFullYear()} TripTie Documentation. Built with Docusaurus.`,
+    },
+    prism: {
+      theme: prismThemes.github,
+      darkTheme: prismThemes.dracula,
+    },
+  },
 };
 
 export default config;

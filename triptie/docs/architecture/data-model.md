@@ -132,21 +132,6 @@ sidebar_position: 2
 - Супер-редкая запись (только при вступлении)
 - Используется для отображения состава команды и прав доступа
 
-## Связи между сущностями
-
-```
-User 1 ────< Participant >──── 1 Trip
-Trip 1 ────< DayRoute >──── 1..N
-DayRoute 1 ────< Location >──── 1..N
-Location N ────> 1 Place
-Place 1 ────< PlaceDetails >──── 0..1
-```
-
-- **User ↔ Trip**: связь M:N через таблицу `Participant` (хранит роль, дату вступления, ответственность)
-- **Trip → DayRoute**: 1:N (каждый день поездки — отдельная запись)
-- **DayRoute → Location**: 1:N (порядковый номер и тайм-слот привязаны к дню)
-- **Location → Place**: N:1 (локация ссылается на справочное место для получения актуальных данных)
-
 ## Выбор технологий хранения
 
 ### Анализ требований
@@ -165,18 +150,18 @@ Place 1 ────< PlaceDetails >──── 0..1
 
 ### Обоснование выбора
 
-#### 🟦 PostgreSQL (основная БД)
+#### PostgreSQL (основная БД)
 - Поддержка ACID-транзакций критична для создания поездок и управления правами участников
 - Нативная работа с JSONB позволяет хранить гибкие предпочтения без нарушения схемы
 - Индексы по `tripId`, `userId`, `status`, `date` обеспечивают быстрый поиск
 - Бесплатная лицензия, активное сообщество, совместимость с Supabase/облаками
 
-####  Redis + MongoDB (кэш и справочники)
+#### Redis + MongoDB (кэш и справочники)
 - **Redis**: сессии, временные токены приглашений, кэш маршрутов (TTL 24ч), счётчики запросов к API
 - **MongoDB**: хранение детализированных данных о местах с гибкой схемой (меню кафе, билеты, атрибуты)
 - Eventual consistency допустима: пользователь видит кэш, а не实时-данные из 2GIS
 
-#### 🟥 ClickHouse + S3 (аналитика и медиа)
+#### ClickHouse + S3 (аналитика и медиа)
 - **ClickHouse**: агрегация действий пользователей, метрики конверсии, обучение рекомендательных моделей
 - **S3 / Яндекс.Облако Object Storage**: фотографии мест, бэкапы БД, экспорт маршрутов в PDF
 - Разделение OLTP и OLAP нагрузок предотвращает деградацию основного API
@@ -192,11 +177,216 @@ Place 1 ────< PlaceDetails >──── 0..1
 | `locations` | `day_route_id`, `place_id`, `order` | Сортировка точек, JOIN с Place |
 | `places` | `coordinates` (GEO), `rating`, `type` | Гео-поиск, фильтрация по категориям |
 
-## Стратегия кэширования
+## Модели данных
 
-| Данные | TTL | Инвалидация |
-|--------|-----|-------------|
-| Маршрут поездки | 24 ч | По изменению предпочтений или перегенерации |
-| Данные места (2GIS) | 7 дней | По триггеру обновления API или репорту пользователя |
-| Прогноз погоды | 6 ч | По расписанию (каждые 6 часов) |
-| Сессии пользователей | 30 дней | По выходу или истечению срока |
+В этом разделе представлены три уровня проектирования базы данных: концептуальный, логический и физический. Каждый уровень сопровождается PlantUML-кодом для версионирования и возможностью автоматической генерации диаграмм.
+
+### 1. Концептуальная модель
+
+```plantuml
+@startuml
+title Концептуальная модель
+
+skinparam linetype ortho
+skinparam packageStyle rectangle
+skinparam nodesep 70
+skinparam ranksep 60
+
+entity "Пользователь" as User
+entity "Поездка" as Trip
+entity "Участник поездки" as Participant
+entity "День маршрута" as DayRoute
+entity "Локация" as Location
+entity "Место" as Place
+
+Trip ||--|{ Participant
+User ||--o{ Participant
+Trip ||--o{ DayRoute
+DayRoute ||--|{ Location
+Place ||--o{ Location
+
+@enduml
+```
+
+**Обоснование:**
+- Выделено 6 сущностей, полностью покрывающих функциональные требования MVP
+- Связи отражают бизнес-логику: `Пользователь → Участник → Поездка → Дни маршрута → Локации → Места`
+- Сущность `Участник поездки` реализует связь M:N между пользователем и поездкой, храня метаданные вступления (роль, дата, зона ответственности)
+- `Место` и `Локация` разделены: `Место` — глобальный справочник (кэш внешних API), `Локация` — конкретная точка в расписании маршрута с тайм-слотами и порядком
+
+### 2. Логическая модель
+
+```plantuml
+@startuml
+title Логическая модель
+
+skinparam linetype ortho
+
+entity "User" as User {
+  *id <<PK>>
+  --
+  *email <<UNIQUE>>
+  *password_hash
+  name
+  created_at
+  last_login_at
+  preferences
+}
+
+entity "Trip" as Trip {
+  *id <<PK>>
+  --
+  *organizer_id <<FK>>
+  *city
+  *start_date
+  *end_date
+  status
+  preferences
+  created_at
+}
+
+entity "Participant" as Participant {
+  *id <<PK>>
+  --
+  *trip_id <<FK>>
+  *user_id <<FK>>
+  *role
+  joined_at
+  responsibility
+}
+
+entity "DayRoute" as DayRoute {
+  *id <<PK>>
+  --
+  *trip_id <<FK>>
+  *day_number
+  *date
+}
+
+entity "Location" as Location {
+  *id <<PK>>
+  --
+  *day_route_id <<FK>>
+  *place_id <<FK>>
+  *order
+  *time_slot_start
+  *time_slot_end
+  *walk_time_from_prev
+  type
+}
+
+entity "Place" as Place {
+  *id <<PK>>
+  --
+  *name
+  *latitude
+  *longitude
+  rating
+  average_receipt
+  web_site_link
+  photos
+}
+
+User ||--o{ Participant
+Trip ||--|{ Participant
+Trip ||--o{ DayRoute
+DayRoute ||--|{ Location
+Place ||--o{ Location
+
+@enduml
+```
+
+**Обоснование:**
+- `User`: пароль хранится только в виде хэша; поле `preferences` использует JSON для гибкой настройки без изменения схемы
+- `Participant`: промежуточная таблица для реализации связи M:N, содержит атрибуты роли и ответственности
+- `Place`: справочник мест, нормализован для связи с внешними сервисами и кэширования
+- Все первичные ключи обозначены как `<<PK>>`, внешние — как `<<FK>>`, уникальные ограничения — как `<<UNIQUE>>`
+
+### 3. Физическая модель
+
+```plantuml
+@startuml
+title Физическая модель
+
+skinparam linetype ortho
+
+entity "users" as users {
+  *id : UUID <<PK>>
+  --
+  *email : VARCHAR(255) <<UNIQUE>>
+  *password_hash : VARCHAR(255)
+  name : VARCHAR(100)
+  created_at : TIMESTAMPTZ <<DEFAULT NOW()>>
+  last_login_at : TIMESTAMPTZ
+  preferences : JSON
+}
+
+entity "trips" as trips {
+  *id : UUID <<PK>>
+  --
+  *organizer_id : UUID <<FK-users.id>>
+  *city : VARCHAR(100)
+  *start_date : DATE
+  *end_date : DATE
+  status : VARCHAR(20) <<DEFAULT 'active'>>
+  preferences : JSON
+  created_at : TIMESTAMPTZ <<DEFAULT NOW()>>
+}
+
+entity "participants" as participants {
+  *id : UUID <<PK>>
+  --
+  *trip_id : UUID <<FK-trips.id>>
+  *user_id : UUID <<FK-users.id>>
+  *role : VARCHAR(20)
+  joined_at : TIMESTAMPTZ <<DEFAULT NOW()>>
+  responsibility: VARCHAR(100)
+}
+
+entity "day_routes" as day_routes {
+  *id : UUID <<PK>>
+  --
+  *trip_id : UUID <<FK-trips.id>>
+  *day_number : INTEGER
+  *date : DATE
+}
+
+entity "locations" as locations {
+  *id : UUID <<PK>>
+  --
+  *day_route_id : UUID <<FK-day_routes.id>>
+  *place_id : UUID <<FK-places.id>>
+  *order : INTEGER
+  *time_slot_start : TIME
+  *time_slot_end : TIME
+  *walk_time_from_prev : INTEGER
+  type : VARCHAR(20)
+}
+
+entity "places" as places {
+  *id : UUID <<PK>>
+  --
+  *name : VARCHAR(255)
+  *latitude : DECIMAL(10,8)
+  *longitude : DECIMAL(11,8)
+  rating : DECIMAL(2,1)
+  average_receipt : INTEGER
+  web_site_link : VARCHAR(200)
+  photos : JSON
+}
+
+users ||--o{ trips
+trips ||--|{ participants
+trips ||--o{ day_routes
+day_routes ||--|{ locations
+places ||--o{ locations
+
+@enduml
+```
+
+**Обоснование:**
+- Все таблицы используют `UUID` для первичных и внешних ключей — повышает безопасность и упрощает распределённую генерацию ID
+- `VARCHAR(255)` для email соответствует стандарту RFC 5321
+- JSON-поля (`preferences`, `photos`) позволяют хранить гибкие структуры без миграций схемы
+- Для `longitude` выбран тип `DECIMAL(11,8)`, так как диапазон значений шире, чем у `latitude`
+- Политики архивирования: завершённые поездки хранятся 3 года, после чего переносятся в холодное хранилище

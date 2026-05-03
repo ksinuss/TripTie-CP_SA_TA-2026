@@ -3,10 +3,6 @@ title: API Reference
 sidebar_position: 2
 ---
 
-# REST API Specification
-
-<Redoc spec-url="/openapi.yaml" />
-
 ## Основные эндпоинты
 
 ### Поездки
@@ -66,9 +62,6 @@ Content-Type: application/json
 GET /api/maps/config?tripId={id}
 ```
 
----
-
 ## 📊 Полная спецификация
 
-См. [OpenAPI Specification](./openapi.yaml)
-```
+См. [OpenAPI Specification](../../api_specs/openapi.yaml)

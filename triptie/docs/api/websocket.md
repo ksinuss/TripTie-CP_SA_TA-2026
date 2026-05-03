@@ -5,7 +5,7 @@ sidebar_position: 3
 
 # WebSocket API для совместного редактирования
 
-## 🌐 Подключение
+## Подключение
 
 ```
 wss://api.triptie.app/v1/ws?tripId={UUID}&token={JWT}
@@ -17,7 +17,7 @@ wss://api.triptie.app/v1/ws?tripId={UUID}&token={JWT}
 | `tripId` | Да | UUID поездки, к которой подключается пользователь |
 | `token` | Да | JWT-токен авторизации (проверяется при соединении) |
 
-## 📡 Формат сообщений
+## Формат сообщений
 
 ### От клиента → сервер
 ```json
@@ -46,7 +46,7 @@ wss://api.triptie.app/v1/ws?tripId={UUID}&token={JWT}
 }
 ```
 
-## 🔁 Типы действий
+## Типы действий
 
 | Action | Описание | Пример payload |
 |--------|----------|----------------|
@@ -55,7 +55,7 @@ wss://api.triptie.app/v1/ws?tripId={UUID}&token={JWT}
 | `reordered` | Изменён порядок | `{ "locationId": "uuid", "newOrder": 2, "day": 1 }` |
 | `dayRegenerated` | Перегенерирован день | `{ "day": 1, "reason": "user_request" }` |
 
-## 🔄 Обработка ошибок
+## Обработка ошибок
 
 | Код | Описание | Действие клиента |
 |-----|----------|-----------------|
@@ -63,6 +63,6 @@ wss://api.triptie.app/v1/ws?tripId={UUID}&token={JWT}
 | `WS-002` | Поездка не найдена | Закрыть соединение, показать ошибку |
 | `WS-003` | Конфликт версий | Запросить актуальное состояние и перерисовать |
 
-## 📄 AsyncAPI-спецификация
+## AsyncAPI-спецификация
 
-Полная спецификация в формате AsyncAPI 3.0: [asyncapi.yaml](/triptie/docs/api/asyncapi.yaml)
+Полная спецификация в формате AsyncAPI 3.0: [asyncapi.yaml](../../api_specs/asyncapi.yaml)
