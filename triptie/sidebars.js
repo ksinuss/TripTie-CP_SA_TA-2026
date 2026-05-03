@@ -4,7 +4,6 @@
 module.exports = {
   docs: [
     'index',
-    
     {
       type: 'category',
       label: 'Введение',
@@ -14,16 +13,15 @@ module.exports = {
         'introduction/scope',
       ],
     },
-    
     {
       type: 'category',
       label: 'Требования',
       items: [
         'requirements/functional',
         'requirements/non-functional',
+        'requirements/stakeholders'
       ],
     },
-    
     {
       type: 'category',
       label: 'Архитектура',
@@ -33,7 +31,6 @@ module.exports = {
         'architecture/integrations',
       ],
     },
-    
     {
       type: 'category',
       label: 'API',
@@ -43,7 +40,6 @@ module.exports = {
         'api/websocket',
       ],
     },
-    
     {
       type: 'category',
       label: 'Алгоритмы',
@@ -51,7 +47,6 @@ module.exports = {
         'algorithms/route-generation',
       ],
     },
-    
     {
       type: 'category',
       label: 'Приложение',

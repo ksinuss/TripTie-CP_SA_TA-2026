@@ -1,74 +1,74 @@
 ---
-title: REST API Reference
+title: API Reference
 sidebar_position: 2
 ---
 
 # REST API Specification
 
-Интерактивная документация с примерами запросов доступна ниже.
+<Redoc spec-url="/openapi.yaml" />
 
-<Redoc spec-url="/triptie-docs/docs/api/openapi.yaml" />
+## Основные эндпоинты
+
+### Поездки
+
+#### Создание поездки
+```http
+POST /api/trips
+Content-Type: application/json
+
+{
+  "city": "Москва",
+  "startDate": "2026-05-15",
+  "endDate": "2026-05-16",
+  "budget": "5000-10000",
+  "preferences": {
+    "types": ["museums", "nature"],
+    "food": "cafes"
+  }
+}
+```
+
+**Response:** `201 Created`
+```json
+{
+  "id": "uuid",
+  "status": "active"
+}
+```
+
+#### Получение маршрута
+```http
+GET /api/trips/:id/route?day=1
+```
+
+#### Генерация маршрута
+```http
+POST /api/trips/:id/route
+```
+
+### Места
+
+#### Поиск мест
+```http
+POST /api/places
+Content-Type: application/json
+
+{
+  "city": "Москва",
+  "preferences": ["museums", "cafes"]
+}
+```
+
+### Карты
+
+#### Конфигурация карты
+```http
+GET /api/maps/config?tripId={id}
+```
 
 ---
 
-## 🚀 Быстрый старт
+## 📊 Полная спецификация
 
-### 1. Создайте поездку
-```bash
-curl -X POST https://api.triptie.app/v1/trips \
-  -H "Authorization: Bearer YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "city": "Санкт-Петербург",
-    "startDate": "2025-07-10",
-    "endDate": "2025-07-12",
-    "preferences": {
-      "tripPreferences": ["museums", "nature"],
-      "foodPreference": "cafe"
-    }
-  }'
-```
-
-### 2. Сгенерируйте маршрут
-```bash
-curl -X POST https://api.triptie.app/v1/trips/{tripId}/route \
-  -H "Authorization: Bearer YOUR_TOKEN"
-```
-
-### 3. Получите маршрут по дням
-```bash
-curl -X GET "https://api.triptie.app/v1/trips/{tripId}/route?day=1" \
-  -H "Authorization: Bearer YOUR_TOKEN"
-```
-
-## 📋 Основные эндпоинты
-
-| Метод | Путь | Описание |
-|-------|------|----------|
-| `POST` | `/auth/login` | Вход, получение JWT |
-| `GET` | `/trips` | Список поездок пользователя |
-| `POST` | `/trips` | Создание новой поездки |
-| `GET` | `/trips/{id}` | Детали поездки |
-| `POST` | `/trips/{id}/route` | Запрос генерации маршрута |
-| `GET` | `/trips/{id}/route` | Получение сгенерированного маршрута |
-| `PATCH` | `/trips/{id}/route` | Ручное редактирование маршрута |
-| `GET` | `/places/{id}` | Детали места (из кэша) |
-
-## 🔄 Пагинация и фильтрация
-
-Для списковых эндпоинтов поддерживаются параметры:
-- `?page=1&limit=20` — пагинация
-- `?status=active` — фильтрация по статусу поездки
-
-Ответ включает метаданные:
-```json
-{
-  "data": [...],
-  "pagination": {
-    "page": 1,
-    "limit": 20,
-    "total": 42,
-    "pages": 3
-  }
-}
+См. [OpenAPI Specification](./openapi.yaml)
 ```
