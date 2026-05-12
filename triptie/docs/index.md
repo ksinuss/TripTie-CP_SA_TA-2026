@@ -25,12 +25,12 @@ description: Документация сервиса группового пла
 
 ## Навигация
 
-- [Введение](01-introduction) — проблема, цели, стейкхолдеры
-- [Требования](02-requirements) — Use Cases, NFR
-- [UI](03-ui-wireframes) — пользовательские интерфейсы и макеты
-- [API](api) — спецификации REST и WebSocket
-- [Архитектура](architecture) — технологический стек, Data Flow
-- [Стратегия](strategy) — стратегия платформизации
+- [Введение](docs/introduction) — проблема, цели, стейкхолдеры
+- [Требования](docs/requirements/functional) — Use Cases, NFR
+- [Архитектура](docs/architecture/arch) — технологический стек, Data Flow
+- [API](docs/api) — спецификации REST и WebSocket
+- [UI](docs/ui-wireframes/wireframes) — пользовательские интерфейсы и макеты
+- [Стратегия](docs/strategy/platformization) — стратегия платформизации
 
 ## Ссылки
 
